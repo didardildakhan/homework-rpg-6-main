@@ -3,7 +3,8 @@ package com.narxoz.rpg.chain;
 import com.narxoz.rpg.arena.ArenaFighter;
 
 public class ArmorHandler extends DefenseHandler {
-    private final int armorValue;
+
+    private int armorValue;
 
     public ArmorHandler(int armorValue) {
         this.armorValue = armorValue;
@@ -11,8 +12,10 @@ public class ArmorHandler extends DefenseHandler {
 
     @Override
     public void handle(int incomingDamage, ArenaFighter target) {
-        // TODO: Subtract armorValue from incomingDamage; clamp the result to a minimum of 0.
-        // TODO: Print an armor message showing how much was absorbed.
-        // TODO: Pass the remaining damage to the next handler.
+
+        int reduced = incomingDamage - armorValue;
+        if (reduced < 0) reduced = 0;
+
+        passToNext(reduced, target);
     }
 }
