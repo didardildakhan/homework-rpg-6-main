@@ -1,56 +1,76 @@
 package com.narxoz.rpg.arena;
 
 public class ArenaFighter {
-    private final String name;
-    private int health;
-    private final int maxHealth;
-    private double dodgeChance;
-    private final int blockRating;
-    private final int armorValue;
-    private final int attackPower;
-    private int healPotions;
 
-    public ArenaFighter(String name, int health, double dodgeChance,
-                        int blockRating, int armorValue, int attackPower, int healPotions) {
+    protected String name;
+    protected int health;
+    protected int maxHealth;
+
+    protected double dodgeChance;
+    protected int blockRating;
+    protected int armor;
+    protected int attackPower;
+    protected int potions;
+
+    // 🔹 БАЗОВЫЙ конструктор
+    public ArenaFighter(String name, int health) {
         this.name = name;
         this.health = health;
         this.maxHealth = health;
-        this.dodgeChance = dodgeChance;
-        this.blockRating = blockRating;
-        this.armorValue = armorValue;
-        this.attackPower = attackPower;
-        this.healPotions = healPotions;
     }
 
-    public String getName() { return name; }
-    public int getHealth() { return health; }
-    public int getMaxHealth() { return maxHealth; }
-    public double getDodgeChance() { return dodgeChance; }
-    public int getBlockRating() { return blockRating; }
-    public int getArmorValue() { return armorValue; }
-    public int getAttackPower() { return attackPower; }
-    public int getHealPotions() { return healPotions; }
+    // 🔥 НУЖНЫЙ КОНСТРУКТОР (ИСПРАВЛЕНИЕ)
+    public ArenaFighter(String name, int health,
+                        double dodgeChance,
+                        int blockRating,
+                        int armor,
+                        int attackPower,
+                        int potions) {
 
-    public void takeDamage(int amount) {
-        // TODO: Reduce health by amount; clamp health to a minimum of 0.
-        health -= amount;
+        this.name = name;
+        this.health = health;
+        this.maxHealth = health;
+
+        this.dodgeChance = dodgeChance;
+        this.blockRating = blockRating;
+        this.armor = armor;
+        this.attackPower = attackPower;
+        this.potions = potions;
+    }
+
+    public void takeDamage(int dmg) {
+        health -= dmg;
+        if (health < 0) health = 0;
     }
 
     public void heal(int amount) {
-        // TODO: Increase health by amount; do not exceed maxHealth.
-        // TODO: Decide what happens when healPotions runs out — should healing be blocked?
+        if (potions <= 0) return;
+
         health += amount;
-        healPotions--;
+        if (health > maxHealth) health = maxHealth;
     }
 
-    public void modifyDodgeChance(double delta) {
-        // TODO: Add delta to dodgeChance.
-        // TODO: Decide whether to clamp dodgeChance between 0.0 and 1.0.
-        dodgeChance += delta;
+    public void usePotion() {
+        if (potions > 0) potions--;
+    }
+
+    public void modifyDodgeChance(double value) {
+        dodgeChance += value;
+
+        if (dodgeChance < 0) dodgeChance = 0;
+        if (dodgeChance > 1) dodgeChance = 1;
     }
 
     public boolean isAlive() {
-        // TODO: Return whether the fighter still has health remaining.
         return health > 0;
     }
+
+    // getters
+    public String getName() { return name; }
+    public int getHealth() { return health; }
+    public double getDodgeChance() { return dodgeChance; }
+    public int getBlockRating() { return blockRating; }
+    public int getArmor() { return armor; }
+    public int getAttackPower() { return attackPower; }
+    public int getPotions() { return potions; }
 }

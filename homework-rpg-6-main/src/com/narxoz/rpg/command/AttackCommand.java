@@ -32,6 +32,6 @@ public class AttackCommand implements ActionCommand {
 
     @Override
     public String getDescription() {
-        return "Attack for " + attackPower;
+        return "Attack (" + attackPower + ")";
     }
 }
